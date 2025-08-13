@@ -8,6 +8,8 @@ import logging
 from typing import Dict, Optional, Iterator
 from itertools import islice
 
+import warnings
+warnings.filterwarnings("ignore")
 
 logger = logging.getLogger(__name__)
 

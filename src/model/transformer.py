@@ -8,6 +8,9 @@ import torch.nn.functional as F
 from torch.nn import CrossEntropyLoss
 from dataclasses import dataclass
 
+import warnings
+warnings.filterwarnings("ignore")
+
 from .layers import RMSNorm, RotaryEmbedding, SwiGLU
 
 
@@ -182,13 +185,21 @@ class TransformerModel(nn.Module):
             position_ids = torch.arange(
                 seq_length, dtype=torch.long, device=input_ids.device
             ).unsqueeze(0)
-            
+
         # Create causal mask
-        if attention_mask is None:
-            attention_mask = torch.triu(
-                torch.full((seq_length, seq_length), float('-inf'), device=input_ids.device),
-                diagonal=1
-            ).unsqueeze(0).unsqueeze(0)
+        causal_mask = torch.triu(
+            torch.full((seq_length, seq_length), float('-inf'), device=input_ids.device),
+            diagonal=1
+        ).unsqueeze(0).unsqueeze(0)  # [1, 1, seq_len, seq_len]
+
+        if attention_mask is not None:
+            # Convert padding mask [batch, seq_len] to 4D [batch, 1, 1, seq_len] 
+            # and combine with causal mask
+            expanded_mask = attention_mask[:, None, None, :]  # [batch, 1, 1, seq_len]
+            expanded_mask = (1.0 - expanded_mask) * -10000.0  # Convert 0s to -inf
+            attention_mask = expanded_mask + causal_mask.expand(input_ids.shape[0], -1, -1, -1)
+        else:
+            attention_mask = causal_mask.expand(input_ids.shape[0], -1, -1, -1)
             
         # Forward through layers
         for layer in self.layers:
@@ -200,6 +211,7 @@ class TransformerModel(nn.Module):
                     position_ids,
                     None,
                     False,
+                    use_reentrant=False,
                 )
             else:
                 hidden_states, _ = layer(

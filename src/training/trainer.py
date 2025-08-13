@@ -15,6 +15,8 @@ from pathlib import Path
 from typing import Dict, Optional
 import json
 from datetime import datetime
+import warnings
+warnings.filterwarnings("ignore")
 
 
 logger = logging.getLogger(__name__)

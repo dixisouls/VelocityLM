@@ -21,6 +21,9 @@ from src.model.layers import RMSNorm
 from src.data.dataset import create_dataloaders
 from src.training.trainer import DistributedTrainer
 
+import warnings
+warnings.filterwarnings("ignore")
+
 
 # Configure logging
 logging.basicConfig(

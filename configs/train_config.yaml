@@ -54,9 +54,9 @@ infrastructure:
   seed: 42
   output_dir: "./checkpoints"
   logging_dir: "./logs"
-  resume_from_checkpoint: null
+  resume_from_checkpoint: "./checkpoints/checkpoint-4000" # put null if you want to start from scratch
   
 # Distributed Training
 distributed:
   backend: "nccl"
-  find_unused_parameters: false
+  find_unused_parameters: false 

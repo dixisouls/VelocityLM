@@ -1,0 +1,73 @@
+# Fine-tuning Configuration for NuminaMath-CoT
+# Model Configuration (should match your pre-trained model)
+model:
+  vocab_size: 50257  # GPT-2 tokenizer size
+  hidden_size: 2048
+  num_hidden_layers: 24
+  num_attention_heads: 32
+  intermediate_size: 8192
+  hidden_act: "silu"
+  max_position_embeddings: 2048
+  initializer_range: 0.02
+  layer_norm_eps: 0.00001 # 1e-5
+  use_cache: false
+  rope_theta: 10000.0
+  attention_dropout: 0.0
+  hidden_dropout: 0.0
+
+# Training Configuration for Fine-tuning
+training:
+  batch_size_per_device: 2  # Smaller batch size for fine-tuning
+  gradient_accumulation_steps: 16  # Increase to maintain effective batch size
+  learning_rate: 0.00005  # 5e-5 - Lower LR for fine-tuning
+  min_learning_rate: 0.000005  # 5e-6
+  weight_decay: 0.01  # Lower weight decay
+  adam_beta1: 0.9
+  adam_beta2: 0.95
+  adam_epsilon: 0.00000001 # 1e-8
+  max_grad_norm: 1.0
+  warmup_steps: 100  # Fewer warmup steps
+  num_training_steps: 5000  # Fewer training steps for fine-tuning
+  logging_steps: 10
+  save_steps: 500
+  eval_steps: 250  # More frequent evaluation
+  save_total_limit: 3
+  fp16: true
+  gradient_checkpointing: true
+  mask_human_tokens: true  # Only train on assistant responses
+  
+# Data Configuration
+data:
+  dataset_name: "AI-MO/NuminaMath-CoT"
+  text_column: "messages"  # Use the messages column
+  max_seq_length: 2048
+  num_workers: 4
+  preprocessing_num_workers: 8
+  
+# Tokenizer Configuration
+tokenizer:
+  tokenizer_name: "gpt2"
+  add_special_tokens: true
+  
+# Infrastructure
+infrastructure:
+  num_gpus: 1  # Single GPU fine-tuning
+  seed: 42
+  output_dir: "./math_finetune_checkpoints"
+  logging_dir: "./math_finetune_logs"
+  pretrained_model_path: "./checkpoints/checkpoint-5000"  # Path to your pre-trained model
+  resume_from_checkpoint: null  # Set this if resuming fine-tuning
+  
+# Distributed Training (not used for single GPU)
+distributed:
+  backend: "nccl"
+  find_unused_parameters: false
+
+# Evaluation Configuration
+evaluation:
+  eval_strategy: "steps"
+  eval_steps: 250
+  eval_dataset_size: 500  # Number of samples for evaluation
+  save_best_model: true
+  metric_for_best_model: "eval_loss"
+  greater_is_better: false

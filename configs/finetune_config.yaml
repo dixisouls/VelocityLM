@@ -7,7 +7,7 @@ model:
   num_attention_heads: 32
   intermediate_size: 8192
   hidden_act: "silu"
-  max_position_embeddings: 2048
+  max_position_embeddings: 1024
   initializer_range: 0.02
   layer_norm_eps: 0.00001 # 1e-5
   use_cache: false
@@ -40,7 +40,7 @@ training:
 data:
   dataset_name: "AI-MO/NuminaMath-CoT"
   text_column: "messages"  # Use the messages column
-  max_seq_length: 2048
+  max_seq_length: 1024
   num_workers: 4
   preprocessing_num_workers: 8
   

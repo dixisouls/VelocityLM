@@ -262,23 +262,48 @@ def create_interface():
     }
     
     .parameter-box {
-        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%) !important;
         border-radius: 15px !important;
         padding: 20px !important;
-        border: 1px solid #e1e5e9 !important;
+        border: 1px solid #4a5568 !important;
     }
-    
+
     .parameter-box summary {
-        color: #333 !important;
+        color: #ffffff !important;
         font-weight: bold !important;
-        background: rgba(255, 255, 255, 0.9) !important;
+        background: rgba(255, 255, 255, 0.1) !important;
         padding: 10px !important;
         border-radius: 10px !important;
     }
-    
+
     .parameter-box details summary {
-        color: #333 !important;
+        color: #ffffff !important;
         font-weight: bold !important;
+    }
+
+    /* Make ALL text white in the parameter box */
+    .parameter-box,
+    .parameter-box *,
+    .parameter-box label,
+    .parameter-box span,
+    .parameter-box p,
+    .parameter-box div,
+    .parameter-box small {
+        color: #ffffff !important;
+    }
+
+    /* Ensure input values are also white */
+    .parameter-box input[type="number"],
+    .parameter-box .gr-textbox input {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid #4a5568 !important;
+    }
+
+    /* Make the centered description text white too */
+    .parameter-box > p {
+        color: #ffffff !important;
+        text-align: center !important;
     }
     
     .output-box {

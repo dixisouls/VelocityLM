@@ -73,7 +73,7 @@ custom_llm/
 - **Checkpointing**: Automatic model and optimizer state saving
 
 ### Data Pipeline
-- **Dataset**: Trained on Falcon RefinedWeb (high-quality web text)
+- **Dataset**: Trained on [Falcon RefinedWeb](https://huggingface.co/datasets/tiiuae/falcon-refinedweb) (high-quality web text)
 - **Streaming**: Memory-efficient streaming data loader
 - **Tokenization**: GPT-2 tokenizer with padding and attention masks
 - **Processing**: On-the-fly tokenization with configurable sequence lengths
@@ -95,7 +95,6 @@ custom_llm/
 ### Prerequisites
 - Python 3.8+
 - CUDA 11.8+ (for GPU training)
-- 16GB+ RAM
 - Multiple GPUs recommended for training
 
 ### Setup
@@ -190,7 +189,7 @@ training:
   gradient_checkpointing: true
 
 data:
-  dataset_name: "tiiuae/falcon-refinedweb"
+  dataset_name: "tiiuae/falcon-refinedweb"  # Falcon RefinedWeb dataset
   max_seq_length: 2048
 ```
 
@@ -198,8 +197,13 @@ data:
 
 ### Training Metrics
 - **Training Steps**: 5,000+ completed
-- **Dataset**: Falcon RefinedWeb (high-quality web text)
+- **Dataset**: [Falcon RefinedWeb](https://huggingface.co/datasets/tiiuae/falcon-refinedweb) (high-quality web text)
 - **Batch Size**: 32 effective (4 per device × 8 accumulation × 1 GPU)
+
+### Training Hardware
+- **CPU**: 2 x AMD EPYC 9334
+- **GPU**: 4 x NVIDIA A100 (80GB)
+- **Training Infrastructure**: High-performance GPU cluster optimized for large-scale model training
 
 ## 🧪 Advanced Features
 

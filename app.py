@@ -236,56 +236,187 @@ def generate_response(
 def create_interface():
     """Create the Gradio interface."""
     
+    # Custom CSS for enhanced UI
+    custom_css = """
+    .gradio-container {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+    }
+    
+    .header-text {
+        text-align: center;
+        background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 2.5em !important;
+        font-weight: bold !important;
+        margin-bottom: 0.5em !important;
+    }
+    
+    .subtitle-text {
+        text-align: center;
+        color: #666;
+        font-size: 1.2em !important;
+        margin-bottom: 2em !important;
+    }
+    
+    .parameter-box {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+        border-radius: 15px !important;
+        padding: 20px !important;
+        border: 1px solid #e1e5e9 !important;
+    }
+    
+    .parameter-box summary {
+        color: #333 !important;
+        font-weight: bold !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+        padding: 10px !important;
+        border-radius: 10px !important;
+    }
+    
+    .parameter-box details summary {
+        color: #333 !important;
+        font-weight: bold !important;
+    }
+    
+    .output-box {
+        border-radius: 15px !important;
+        border: 1px solid #e1e5e9 !important;
+    }
+    
+    .generate-btn {
+        background: linear-gradient(45deg, #667eea 0%, #764ba2 100%) !important;
+        border: none !important;
+        color: white !important;
+        font-weight: bold !important;
+        font-size: 1.1em !important;
+        padding: 15px 30px !important;
+        border-radius: 25px !important;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .generate-btn:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6) !important;
+    }
+    
+    .clear-btn {
+        background: linear-gradient(45deg, #ff6b6b 0%, #ee5a24 100%) !important;
+        border: none !important;
+        color: white !important;
+        font-weight: bold !important;
+        border-radius: 20px !important;
+        padding: 10px 20px !important;
+        box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3) !important;
+    }
+    
+    .info-box {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%) !important;
+        border-radius: 15px !important;
+        padding: 20px !important;
+        border: 1px solid #f0c27b !important;
+        margin-top: 20px !important;
+    }
+    
+    .example-box {
+        background: linear-gradient(135def, #e8f5e8 0%, #d4edda 100%) !important;
+        border-radius: 15px !important;
+        padding: 15px !important;
+        border: 1px solid #c3e6cb !important;
+    }
+    
+    .metric-card {
+        background: white !important;
+        border-radius: 10px !important;
+        padding: 15px !important;
+        text-align: center !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+        border-left: 4px solid #667eea !important;
+    }
+    
+    .progress-bar {
+        background: linear-gradient(45deg, #667eea 0%, #764ba2 100%) !important;
+    }
+    """
+    
     with gr.Blocks(
-        title="Custom LLM - Text Generation", 
-        theme=gr.themes.Soft(),
-        css="""
-        .gradio-container {
-            max-width: 900px !important;
-        }
-        """
+        title="🤖 Custom LLM - Advanced Text Generation", 
+        theme=gr.themes.Soft(
+            primary_hue="blue",
+            secondary_hue="purple",
+            neutral_hue="gray"
+        ),
+        css=custom_css
     ) as demo:
+        
+        # Header with gradient text
+        gr.HTML("""
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h1 class="header-text">🤖 Custom LLM</h1>
+            <p class="subtitle-text">Advanced 2B Parameter Foundational Language Model</p>
+            <div style="display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0;">
+                <div class="metric-card">
+                    <h3 style="margin: 0; color: #667eea;">2B+</h3>
+                    <p style="margin: 5px 0 0 0; color: #666; font-size: 0.9em;">Parameters</p>
+                </div>
+                <div class="metric-card">
+                    <h3 style="margin: 0; color: #667eea;">2048</h3>
+                    <p style="margin: 5px 0 0 0; color: #666; font-size: 0.9em;">Context Length</p>
+                </div>
+            </div>
+        </div>
+        """)
         
         gr.Markdown(
             """
-            # 🤖 Custom LLM - Foundational Language Model
-            
-            This is a custom-trained foundational language model with 2B parameters, 
-            featuring modern transformer architecture with RoPE, RMSNorm, and SwiGLU.
-            
-            **Features:**
-            - Streaming text generation
-            - Configurable sampling parameters
-            - ZeroGPU acceleration on Hugging Face Spaces
-            """
+            <div style="text-align: center; background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%); 
+                        padding: 20px; border-radius: 15px; margin-bottom: 2rem; border: 1px solid #e1e8f7;">
+                <p style="margin: 0; font-size: 1.1em; color: #4a5568;">
+                    🎯 <strong>Modern Architecture:</strong> RoPE • RMSNorm • SwiGLU • Multi-Head Attention<br>
+                    ✨ <strong>Features:</strong> Text Generation • Configurable Sampling • GPU Accelerated
+                </p>
+            </div>
+            """, 
+            elem_classes=["info-box"]
         )
         
-        with gr.Row():
-            with gr.Column(scale=3):
-                # Input section
+        with gr.Row(equal_height=True):
+            # Input Column
+            with gr.Column(scale=2, min_width=400):
+                gr.HTML("<div style='margin-bottom: 1rem;'><h3 style='color: #667eea; margin: 0;'>💬 Input Prompt</h3></div>")
+                
                 prompt_input = gr.Textbox(
-                    lines=4,
-                    placeholder="Enter your prompt here...",
-                    label="Prompt",
+                    lines=6,
+                    placeholder="✨ Enter your creative prompt here...\n\nExample: Write a story about a future where AI and humans collaborate to solve climate change...",
+                    label="Your Prompt",
                     show_copy_button=True,
+                    container=True,
+                    elem_classes=["input-box"]
                 )
                 
-                # Generation parameters
-                with gr.Accordion("Generation Parameters", open=False):
+                # Advanced Parameters Section
+                with gr.Accordion("🎛️ Advanced Generation Parameters", open=False, elem_classes=["parameter-box"]):
+                    gr.HTML("<p style='text-align: center; color: #333; margin-bottom: 1rem;'>Fine-tune your generation settings</p>")
+                    
                     with gr.Row():
                         max_new_tokens = gr.Slider(
                             minimum=1,
                             maximum=1024,
                             value=512,
                             step=1,
-                            label="Max New Tokens"
+                            label="🔢 Max New Tokens",
+                            info="Maximum number of tokens to generate"
                         )
                         temperature = gr.Slider(
                             minimum=0.1,
                             maximum=2.0,
                             value=0.8,
                             step=0.1,
-                            label="Temperature"
+                            label="🌡️ Temperature",
+                            info="Higher = more creative, lower = more focused"
                         )
                     
                     with gr.Row():
@@ -294,14 +425,16 @@ def create_interface():
                             maximum=1.0,
                             value=0.9,
                             step=0.05,
-                            label="Top-p (nucleus sampling)"
+                            label="🎯 Top-p",
+                            info="Nucleus sampling threshold"
                         )
                         top_k = gr.Slider(
                             minimum=0,
                             maximum=200,
                             value=50,
                             step=5,
-                            label="Top-k (0 = disabled)"
+                            label="📊 Top-k",
+                            info="Top-k sampling limit (0 = disabled)"
                         )
                     
                     repetition_penalty = gr.Slider(
@@ -309,42 +442,67 @@ def create_interface():
                         maximum=2.0,
                         value=1.1,
                         step=0.05,
-                        label="Repetition Penalty"
+                        label="🔄 Repetition Penalty",
+                        info="Reduce repetitive text (higher = less repetition)"
                     )
                 
-                # Generate button
+                # Generate Button with enhanced styling
+                gr.HTML("<div style='margin: 1.5rem 0;'>")
                 generate_btn = gr.Button(
-                    "🚀 Generate", 
+                    "🚀 Generate Text",
                     variant="primary",
-                    size="lg"
+                    size="lg",
+                    elem_classes=["generate-btn"],
+                    scale=1
                 )
+                gr.HTML("</div>")
                 
-            with gr.Column(scale=4):
-                # Output section
+                # Quick Settings Presets
+                gr.HTML("<div style='margin-top: 1rem;'><h4 style='color: #667eea; margin-bottom: 0.5rem;'>⚡ Quick Presets</h4></div>")
+                with gr.Row():
+                    creative_btn = gr.Button("🎨 Creative", size="sm", variant="secondary")
+                    balanced_btn = gr.Button("⚖️ Balanced", size="sm", variant="secondary") 
+                    precise_btn = gr.Button("🎯 Precise", size="sm", variant="secondary")
+                
+            # Output Column
+            with gr.Column(scale=3, min_width=500):
+                gr.HTML("<div style='margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;'><h3 style='color: #667eea; margin: 0;'>📝 Generated Output</h3></div>")
+                
                 output_text = gr.Textbox(
-                    lines=20,
+                    lines=22,
                     label="Generated Text",
                     show_copy_button=True,
-                    interactive=False
+                    interactive=False,
+                    placeholder="Your generated text will appear here...\n\n✨ Streaming in real-time\n🚀 Powered by custom 2B parameter model",
+                    elem_classes=["output-box"],
+                    container=True
                 )
                 
-                # Clear button
-                clear_btn = gr.Button("🗑️ Clear", variant="secondary")
+                # Action buttons
+                with gr.Row():
+                    clear_btn = gr.Button("🗑️ Clear All", variant="secondary", elem_classes=["clear-btn"])
         
-        # Examples
-        gr.Examples(
-            examples=[
-                ["Once upon a time in a distant galaxy,"],
-                ["The future of artificial intelligence is"],
-                ["In the year 2050, technology will"],
-                ["Write a short story about a robot who"],
-                ["Explain quantum computing in simple terms:"],
-            ],
-            inputs=[prompt_input],
-            label="Example Prompts"
-        )
+        # Enhanced Examples Section
+        gr.HTML("<div style='margin: 2rem 0;'><h3 style='color: #667eea; text-align: center; margin-bottom: 1rem;'>🎯 Example Prompts</h3></div>")
         
-        # Event handlers
+        with gr.Accordion("📚 Prompt Examples", open=True, elem_classes=["example-box"]):
+            gr.Examples(
+                examples=[
+                    ["Once upon a time in a distant galaxy, there lived a civilization that had never seen the stars."],
+                    ["The old lighthouse keeper noticed something strange about the fog that night."],
+                    ["In the depths of the Amazon rainforest, Dr. Martinez made a discovery that would change everything."],
+                    ["The last bookstore on Earth was about to close its doors forever when"],
+                    ["As the spaceship approached the mysterious planet, the crew realized"],
+                    ["The clockmaker's shop had been abandoned for fifty years, but every morning at precisely 9 AM"],
+                    ["Deep beneath the city, in tunnels forgotten by time, archaeologist Elena found"],
+                    ["The message in a bottle had traveled across three oceans before washing ashore"],
+                ],
+                inputs=[prompt_input],
+                label="Click any example to get started!",
+                examples_per_page=4
+            )
+        
+        # Event handlers for main functionality
         generate_btn.click(
             fn=generate_response,
             inputs=[
@@ -359,26 +517,28 @@ def create_interface():
             show_progress=True,
         )
         
+        # Preset button handlers
+        creative_btn.click(
+            fn=lambda: (1.2, 0.95, 40, 1.05),
+            outputs=[temperature, top_p, top_k, repetition_penalty]
+        )
+        
+        balanced_btn.click(
+            fn=lambda: (0.8, 0.9, 50, 1.1),
+            outputs=[temperature, top_p, top_k, repetition_penalty]
+        )
+        
+        precise_btn.click(
+            fn=lambda: (0.3, 0.8, 20, 1.2),
+            outputs=[temperature, top_p, top_k, repetition_penalty]
+        )
+        
+        # Utility button handlers
         clear_btn.click(
             fn=lambda: ("", ""),
             outputs=[prompt_input, output_text]
         )
         
-        # Info section
-        gr.Markdown(
-            """
-            ---
-            
-            **Model Details:**
-            - Architecture: Custom Transformer with RoPE, RMSNorm, SwiGLU
-            - Parameters: ~2B
-            - Context Length: 2048 tokens
-            - Tokenizer: GPT-2
-            
-            **Note:** This model runs on ZeroGPU when deployed on Hugging Face Spaces.
-            Generation may take a few moments to start as the model loads on GPU.
-            """
-        )
     
     return demo
 
@@ -387,8 +547,8 @@ if __name__ == "__main__":
     # Initialize for local testing
     demo = create_interface()
     demo.launch(
-        server_name="0.0.0.0",
+        server_name="127.0.0.1",
         server_port=7860,
         share=False,
-        debug=True,
+        debug=False,
     )

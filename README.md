@@ -11,6 +11,8 @@ A high-performance, custom transformer language model trained from scratch using
 
 VelocityLM features a custom transformer architecture optimized for performance and efficiency:
 
+![VelocityLM Architecture](velocitylm_architecture.png)
+
 ### Model Specifications
 - **Parameters**: ~2B parameters (2048 hidden size, 24 layers)
 - **Architecture**: Decoder-only transformer with causal attention
